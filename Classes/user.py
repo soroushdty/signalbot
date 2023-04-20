@@ -40,3 +40,7 @@ class User:
             self.pairs=pd.Series(pairs)
         elif type(pairs)==list:
             self.pairs=pd.DataFrame(pairs)
+
+#DF: A list of dictionaries with keys:
+#Exchange,Longs,Shorts,PairName, strategyname converted to pandas DataFrame
+        

@@ -34,3 +34,27 @@ def duplichecker(signal_series):
     final_series= signal_series
     logging.debug('Output renamed')
     return final_series
+
+
+#Duplichecker Function
+def duplichecker(buyselldict):
+  global fullfilledl
+  global fullfilleds
+  Long =[]
+  Short = []
+  for x in buyselldict['Buy']:
+    if x not in fullfilledl:
+      Long.append(x)
+      fullfilledl.append(x)
+  for x in buyselldict['Sell']:
+    if x not in fullfilleds:
+      Short.append(x)
+      fullfilleds.append(x)
+  for x in fullfilledl:
+    if x not in buyselldict['Buy']:
+      fullfilledl.remove(x)
+  for x in fullfilleds:
+    if x not in buyselldict['Sell']:
+      fullfilleds.remove(x)  
+  d = {'Long' : Long, 'Short' : Short, 'Strategy' : buyselldict['Strategy']}
+  return d

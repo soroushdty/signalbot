@@ -45,3 +45,37 @@ def signalmaker(raw_series,strategy_class):
                     'Strategy': raw_series['Strategy']} 
     logging.debug('signal series created')
     return signal_series
+
+
+###############alt###############
+def signalmaker2(row):
+  buy = []
+  sell = []
+  exchange=row['Exchange']
+  listname=row['List Name']
+  longs=row['Longs']
+  shorts=row['Shorts']
+  strategy=row['Strategy']
+  for x in longs:
+       try:
+           if strategy.filtercriteria(exchange,x) and strategy.longcriteria(exchange,x):
+               buy.append(x)
+       except:
+           e = sys.exc_info()[0]
+           if listname:
+               print(f'FAIL {exchange}*{listname}*{strategy.strategyname}*{x}*{e}')
+           else:
+               print(f'FAIL {exchange}*{strategy.strategyname}*{x}*{e}')
+  for x in shorts:
+       try:
+           if strategy.filtercriteria(exchange,x) and strategy.shortcriteria(exchange,x):
+               sell.append(x)
+       except:
+           e = sys.exc_info()[0]
+           if listname:
+               print(f'FAIL {exchange}*{listname}*{strategy.strategyname}*{x}*{e}')
+           else:
+               print(f'FAIL {exchange}*{strategy.strategyname}*{x}*{e}')
+  signaldict={'Exchange':exchange, 'List Name':listname, 'Strategy':strategy.strategyname,
+            'Buy':buy, 'Sell':sell}
+  return signaldict
